@@ -3,7 +3,7 @@ import { Search, Bell, HelpCircle, Volume2 } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <nav className="bg-[#22272b] text-white px-4 py-3 flex items-center justify-between shadow">
+    <nav className="bg-[#22272b] text-white px-4 py-3 flex items-center justify-between shadow sticky top-0 z-50">
       {/* Left section */}
       <div className="flex items-center gap-3">
         <button className="hover:bg-[#2c2f33] p-2 rounded">

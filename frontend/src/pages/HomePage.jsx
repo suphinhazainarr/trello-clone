@@ -10,11 +10,11 @@ const HomePage = () => {
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
-        <div className="flex-1 p-4 overflow-auto">
-          <Routes>
-            <Route path="/board" element={<Board />} />
-          </Routes>
-        </div>
+          <div className="flex-1 overflow-auto w-full h-full">
+      <Routes>
+        <Route path="/board" element={<Board />} />
+      </Routes>
+    </div>
       </div>
     </div>
   );
