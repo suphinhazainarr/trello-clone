@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import Board from "./components/Board";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,7 +15,7 @@ function App() {
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
-        {/* <Board /> */}
+        <Board />
       </div>
     </div>
     </>

@@ -2,7 +2,7 @@ import { LayoutGrid, Home, Users, Settings, Folder } from "lucide-react";
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 bg-[#22272b] h-full p-4 flex flex-col text-[#b6c2cf]">
+    <aside className="w-120 bg-[#22272b] h-full p-4 flex flex-col pt-12 pl-39 pr-4 pb-4  text-[#b6c2cf]">
       {/* Top: Boards */}
       <div>
         <button className="flex items-center gap-2 w-full px-3 py-2 rounded bg-[#2c3e50] text-white font-semibold mb-2">
