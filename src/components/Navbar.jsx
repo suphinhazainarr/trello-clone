@@ -13,7 +13,7 @@ export default function Navbar() {
         </button>
         <div className="flex items-center gap-1">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Trello_logo.svg"
+            src="/assets/images/trello.png"
             alt="Trello"
             className="w-6 h-6"
           />
