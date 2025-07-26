@@ -1,4 +1,3 @@
-import React from "react";
 import { LayoutGrid, Users, Settings } from "lucide-react";
 
 const BoardCard = ({ title, isTemplate, color, img }) => (
