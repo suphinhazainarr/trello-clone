@@ -1,7 +1,10 @@
 import React from "react";
 import { Search, Bell, HelpCircle, Volume2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
   return (
     <nav className="bg-[#22272b] text-white px-4 py-3 flex items-center justify-between shadow sticky top-0 z-50">
       {/* Left section */}
@@ -32,7 +35,10 @@ export default function Navbar() {
 
       {/* Right section */}
       <div className="flex items-center gap-3">
-        <button className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm font-medium">
+        <button
+          className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm font-medium"
+          onClick={() => navigate("/create-board")}
+        >
           Create
         </button>
         <Volume2 className="w-5 h-5 text-white cursor-pointer" />
