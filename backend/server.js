@@ -5,6 +5,9 @@ const cors = require('cors');
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const boardRoutes = require('./routes/boards');
+const listRoutes = require('./routes/lists');
+const cardRoutes = require('./routes/cards');
 
 const app = express();
 
@@ -12,8 +15,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/boards', boardRoutes);
+app.use('/api/lists', listRoutes);
+app.use('/api/cards', cardRoutes);
 
 // Root route (optional, for testing)
 app.get('/', (req, res) => {
