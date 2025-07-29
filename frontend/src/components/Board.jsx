@@ -1,4 +1,5 @@
 import { LayoutGrid, Users, Settings } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
 const BoardCard = ({ title, isTemplate, color, img }) => (
   <div
