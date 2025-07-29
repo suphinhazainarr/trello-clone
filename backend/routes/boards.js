@@ -26,7 +26,7 @@ router.get('/', auth, async (req, res) => {
   try {
     const boards = await Board.find({
       members: req.user.id
-    }).populate('members', 'name email');
+    }).sort({ createdAt: -1 }); // Most recent first
     res.json(boards);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
