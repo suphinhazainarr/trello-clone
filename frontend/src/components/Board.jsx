@@ -1,5 +1,6 @@
 import { LayoutGrid, Users, Settings } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { fetchBoards } from "../services/boardService"; // Make sure this import is correct
 
 const BoardCard = ({ title, isTemplate, color, img }) => (
   <div
@@ -48,7 +49,6 @@ export default function Boards() {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // For demo: recently viewed = first 4 boards, workspace = all boards
   useEffect(() => {
     const getBoards = async () => {
       try {
@@ -56,7 +56,6 @@ export default function Boards() {
         const data = await fetchBoards();
         setBoards(data);
       } catch (err) {
-        // handle error (e.g., show message)
         setBoards([]);
       } finally {
         setLoading(false);
@@ -67,6 +66,46 @@ export default function Boards() {
 
   return (
     <div className="p-12 text-white bg-[#22272b] min-h-screen w-full">
+      {/* Most popular templates */}
+      <div className="mb-16">
+        <h2 className="text-2xl font-bold mb-3">Most popular templates</h2>
+        <p className="text-[#b6c2cf] mb-6 text-base">
+          Get going faster with a template from the Trello community or team.
+        </p>
+        <div className="flex space-x-8 overflow-x-auto pb-4">
+          <BoardCard
+            title="Basic Board"
+            isTemplate
+            color="blue-600"
+            img="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&w=400&h=200&fit=crop"
+          />
+          <BoardCard
+            title="Kanban Template"
+            isTemplate
+            color="cyan-400"
+            img="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&w=400&h=200&fit=crop"
+          />
+          <BoardCard
+            title="Daily Task Management"
+            isTemplate
+            color="gray-700"
+            img="https://images.pexels.com/photos/2102416/pexels-photo-2102416.jpeg?auto=compress&w=400&h=200&fit=crop"
+          />
+          <BoardCard
+            title="Remote Team Hub"
+            isTemplate
+            color="yellow-600"
+            img="https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg?auto=compress&w=400&h=200&fit=crop"
+          />
+        </div>
+        <a
+          href="#"
+          className="text-base text-blue-400 hover:underline mt-4 inline-block"
+        >
+          Browse the full template gallery
+        </a>
+      </div>
+
       {/* Recently viewed */}
       <div className="mb-16">
         <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
@@ -114,7 +153,6 @@ export default function Boards() {
             S
           </div>
           <span className="font-semibold text-xl text-white">
-            {/* You can fetch and display the user's name here if you want */}
             Your Workspace
           </span>
           <div className="flex gap-3 ml-6">
