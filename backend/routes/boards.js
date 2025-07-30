@@ -22,7 +22,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Get all boards for user
-router.get('/', auth, async (req, res) => {
+router.get('/boards', auth, async (req, res) => {
   try {
     const boards = await Board.find({
       members: req.user.id
