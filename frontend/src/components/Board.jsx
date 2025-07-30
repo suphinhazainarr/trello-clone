@@ -1,11 +1,12 @@
 import { LayoutGrid, Users, Settings } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { fetchBoards } from "../services/boardService"; // Make sure this import is correct
 import { useNavigate } from "react-router-dom";
+import { fetchBoards } from "../services/boardService"; // Make sure this import is correct
 
-const BoardCard = ({ title, isTemplate, color, img }) => (
+const BoardCard = ({ title, isTemplate, color, img, onClick }) => (
   <div
-    className={`relative rounded-xl bg-[#22272b] border border-[#39424e] w-72 h-40 flex flex-col justify-end overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-150`}
+    onClick={onClick}
+    className={`relative rounded-xl bg-[#22272b] border border-[#39424e] w-72 h-40 flex flex-col justify-end overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-150 cursor-pointer`}
   >
     {img && (
       <img
@@ -29,9 +30,10 @@ const BoardCard = ({ title, isTemplate, color, img }) => (
   </div>
 );
 
-const WorkspaceBoardCard = ({ title, img, color }) => (
+const WorkspaceBoardCard = ({ title, img, color, onClick }) => (
   <div
-    className="relative rounded-xl bg-[#22272b] border border-[#39424e] w-72 h-40 flex flex-col justify-end overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-150"
+    onClick={onClick}
+    className="relative rounded-xl bg-[#22272b] border border-[#39424e] w-72 h-40 flex flex-col justify-end overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-150 cursor-pointer"
   >
     {img && (
       <img
@@ -49,6 +51,7 @@ const WorkspaceBoardCard = ({ title, img, color }) => (
 export default function Boards() {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getBoards = async () => {
@@ -79,24 +82,28 @@ export default function Boards() {
             isTemplate
             color="blue-600"
             img="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&w=400&h=200&fit=crop"
+            onClick={() => {}} // No navigation for templates
           />
           <BoardCard
             title="Kanban Template"
             isTemplate
             color="cyan-400"
             img="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&w=400&h=200&fit=crop"
+            onClick={() => {}}
           />
           <BoardCard
             title="Daily Task Management"
             isTemplate
             color="gray-700"
             img="https://images.pexels.com/photos/2102416/pexels-photo-2102416.jpeg?auto=compress&w=400&h=200&fit=crop"
+            onClick={() => {}}
           />
           <BoardCard
             title="Remote Team Hub"
             isTemplate
             color="yellow-600"
             img="https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg?auto=compress&w=400&h=200&fit=crop"
+            onClick={() => {}}
           />
         </div>
         <a
@@ -138,6 +145,7 @@ export default function Boards() {
                 key={board._id}
                 title={board.title}
                 img="https://images.pexels.com/photos/2102416/pexels-photo-2102416.jpeg?auto=compress&w=400&h=200&fit=crop"
+                onClick={() => navigate(`/board/${board._id}`)}
               />
             ))
           )}
@@ -185,6 +193,7 @@ export default function Boards() {
                 key={board._id}
                 title={board.title}
                 img="https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg?auto=compress&w=400&h=200&fit=crop"
+                onClick={() => navigate(`/board/${board._id}`)}
               />
             ))
           )}
