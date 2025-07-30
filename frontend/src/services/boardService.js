@@ -31,6 +31,6 @@ export const createCard = async (listId, title, description = "", assignedTo = [
 
 // Get all boards for current user
 export const fetchBoards = async () => {
-  const res = await axios.get(API_URL, getAuthHeader());
+  const res = await axios.get(`${API_URL}/boards`, getAuthHeader());
   return res.data;
 };
