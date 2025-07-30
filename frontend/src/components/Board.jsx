@@ -1,6 +1,7 @@
 import { LayoutGrid, Users, Settings } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { fetchBoards } from "../services/boardService"; // Make sure this import is correct
+import { useNavigate } from "react-router-dom";
 
 const BoardCard = ({ title, isTemplate, color, img }) => (
   <div
