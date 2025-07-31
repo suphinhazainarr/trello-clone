@@ -8,8 +8,12 @@ const getAuthHeader = () => ({
 });
 
 // Create a board
-export const createBoard = async (title) => {
-  const res = await axios.post(`${API_URL}/boards`, { title }, getAuthHeader());
+export const createBoard = async ({ title, description, background, visibility, workspace }) => {
+  const res = await axios.post(
+    `${API_URL}/boards`,
+    { title, description, background, visibility, workspace },
+    getAuthHeader()
+  );
   return res.data;
 };
 
