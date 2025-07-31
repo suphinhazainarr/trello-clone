@@ -7,12 +7,20 @@ const router = express.Router();
 // Create a board
 router.post('/', auth, async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, description, background, visibility, workspace } = req.body;
     if (!title) return res.status(400).json({ message: 'Title is required' });
+
     const board = new Board({
       title,
+      description,
+      background: background || "#0079bf",
+      visibility: visibility || "private",
       ownerId: req.user.id,
-      members: [req.user.id]
+      members: [{
+        user: req.user.id,
+        role: "admin"
+      }],
+      workspace: workspace || undefined // if you have workspaces
     });
     await board.save();
     res.status(201).json(board);
