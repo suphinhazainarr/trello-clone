@@ -22,6 +22,8 @@ function AppLayout() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<LandingPage />} />
+        <Route path="/board/:boardId" element={<BoardForm />} />
+
       </Routes>
     </div>
   );
