@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { createBoard, createList, createCard } from "../services/boardService";
-import { ChevronDown, SlidersHorizontal, Star, Users, Share2, MoreHorizontal } from "lucide-react";
+import {
+  createBoard,
+  createList,
+  createCard,
+} from "../services/boardService";
+import {
+  ChevronDown,
+  SlidersHorizontal,
+  Star,
+  Users,
+  Share2,
+  MoreHorizontal,
+} from "lucide-react";
 
 export default function BoardWorkspace() {
-  // State for board, lists, and cards
   const [board, setBoard] = useState(null);
   const [lists, setLists] = useState([]);
   const [cards, setCards] = useState({});
@@ -37,7 +47,7 @@ export default function BoardWorkspace() {
     const newCard = await createCard(selectedListId, cardTitle);
     setCards({
       ...cards,
-      [selectedListId]: [...(cards[selectedListId] || []), newCard]
+      [selectedListId]: [...(cards[selectedListId] || []), newCard],
     });
     setCardTitle("");
   };
@@ -47,7 +57,9 @@ export default function BoardWorkspace() {
       {/* Board header */}
       <div className="flex items-center justify-between px-8 pt-6 pb-2 z-10 relative">
         <div className="flex items-center gap-2">
-          <span className="font-semibold text-lg text-white">{board ? board.title : "No Board"}</span>
+          <span className="font-semibold text-lg text-white">
+            {board ? board.title : "No Board"}
+          </span>
           <ChevronDown className="w-5 h-5 text-gray-400" />
         </div>
         <div className="flex items-center gap-3">
@@ -64,7 +76,8 @@ export default function BoardWorkspace() {
       <div
         className="flex-1 bg-cover bg-center relative p-8"
         style={{
-          backgroundImage: "linear-gradient(rgba(24,28,32,0.4),rgba(24,28,32,0.4)),url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80')",
+          backgroundImage:
+            "linear-gradient(rgba(24,28,32,0.4),rgba(24,28,32,0.4)),url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80')",
         }}
       >
         {/* Create Board */}
@@ -74,7 +87,7 @@ export default function BoardWorkspace() {
               type="text"
               placeholder="Board title"
               value={boardTitle}
-              onChange={e => setBoardTitle(e.target.value)}
+              onChange={(e) => setBoardTitle(e.target.value)}
               className="px-4 py-2 rounded border border-gray-300 mr-2"
             />
             <button
@@ -86,61 +99,69 @@ export default function BoardWorkspace() {
           </div>
         )}
 
-        {/* Add a list */}
+        {/* Lists and Cards */}
         {board && (
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="List title"
-              value={listTitle}
-              onChange={e => setListTitle(e.target.value)}
-              className="px-4 py-2 rounded border border-gray-300 mr-2"
-            />
-            <button
-              onClick={handleCreateList}
-              className="bg-white/60 rounded-xl px-6 py-2 cursor-pointer hover:bg-white/80 transition shadow-lg"
-            >
-              + Add a list
-            </button>
+          <div className="flex gap-6 overflow-x-auto pb-4">
+            {lists.map((list) => (
+              <div
+                key={list._id}
+                className="bg-[#181c20] rounded-xl p-4 w-72 min-w-[18rem] shadow-lg flex flex-col"
+              >
+                <div className="font-bold mb-2 text-white flex items-center justify-between">
+                  <span>{list.title}</span>
+                  <MoreHorizontal className="w-5 h-5 text-gray-400" />
+                </div>
+                {/* Cards */}
+                <div className="flex flex-col gap-2 mb-2">
+                  {(cards[list._id] || []).map((card) => (
+                    <div
+                      key={card._id}
+                      className="bg-white rounded p-3 shadow text-gray-900"
+                    >
+                      {card.title}
+                    </div>
+                  ))}
+                </div>
+                {/* Add Card */}
+                <div className="mt-auto">
+                  <input
+                    type="text"
+                    placeholder="Add a card"
+                    value={selectedListId === list._id ? cardTitle : ""}
+                    onChange={(e) => {
+                      setSelectedListId(list._id);
+                      setCardTitle(e.target.value);
+                    }}
+                    className="px-2 py-1 rounded border border-gray-300 mr-2 w-full mb-2"
+                  />
+                  <button
+                    onClick={handleCreateCard}
+                    className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 w-full"
+                    disabled={selectedListId !== list._id || !cardTitle}
+                  >
+                    + Add a card
+                  </button>
+                </div>
+              </div>
+            ))}
+            {/* Add another list */}
+            <div className="bg-white/60 rounded-xl p-4 w-72 min-w-[18rem] flex flex-col justify-center items-center shadow-lg">
+              <input
+                type="text"
+                placeholder="List title"
+                value={listTitle}
+                onChange={(e) => setListTitle(e.target.value)}
+                className="px-4 py-2 rounded border border-gray-300 mb-2 w-full"
+              />
+              <button
+                onClick={handleCreateList}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+              >
+                + Add another list
+              </button>
+            </div>
           </div>
         )}
-
-        {/* Lists and Cards */}
-        <div className="flex gap-6">
-          {lists.map(list => (
-            <div key={list._id} className="bg-white/80 rounded-xl p-4 w-64 shadow-lg">
-              <div className="font-bold mb-2">{list.title}</div>
-              {/* Cards */}
-              <div className="flex flex-col gap-2 mb-2">
-                {(cards[list._id] || []).map(card => (
-                  <div key={card._id} className="bg-white rounded p-2 shadow">
-                    {card.title}
-                  </div>
-                ))}
-              </div>
-              {/* Add Card */}
-              <div>
-                <input
-                  type="text"
-                  placeholder="Card title"
-                  value={selectedListId === list._id ? cardTitle : ""}
-                  onChange={e => {
-                    setSelectedListId(list._id);
-                    setCardTitle(e.target.value);
-                  }}
-                  className="px-2 py-1 rounded border border-gray-300 mr-2"
-                />
-                <button
-                  onClick={handleCreateCard}
-                  className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
-                  disabled={selectedListId !== list._id || !cardTitle}
-                >
-                  Add Card
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
