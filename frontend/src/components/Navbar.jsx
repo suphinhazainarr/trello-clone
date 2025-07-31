@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Search, Bell, HelpCircle, Volume2, X } from "lucide-react";
+import { createBoard } from "../services/boardService"; // <-- Make sure this import is correct
 
 const backgrounds = [
-  // You can use image URLs or color codes
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
   "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
   "#0079bf", "#d29034", "#519839", "#b04632", "#89609e", "#cd5a91", "#4bbf6b", "#00aecc"
@@ -14,20 +14,28 @@ export default function Navbar() {
   const [background, setBackground] = useState(backgrounds[0]);
   const [visibility, setVisibility] = useState("workspace");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
       setError("Board title is required");
       return;
     }
-    // Call your createBoard service here
-    // createBoard({ title, background, visibility });
-    setShowDrawer(false);
-    setTitle("");
-    setBackground(backgrounds[0]);
-    setVisibility("workspace");
-    setError("");
+    setLoading(true);
+    try {
+      await createBoard({ title, background, visibility });
+      // Optionally: refetch boards, show success, or navigate to the new board
+      setShowDrawer(false);
+      setTitle("");
+      setBackground(backgrounds[0]);
+      setVisibility("workspace");
+      setError("");
+    } catch (err) {
+      setError("Failed to create board");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -96,7 +104,7 @@ export default function Navbar() {
             {/* Background preview */}
             <div className="mb-4">
               <div className="flex gap-2 mb-2">
-                {backgrounds.slice(0, 3).map((bg, i) =>
+                {backgrounds.slice(0, 2).map((bg, i) =>
                   typeof bg === "string" && bg.startsWith("http") ? (
                     <img
                       key={i}
@@ -109,7 +117,7 @@ export default function Navbar() {
                 )}
               </div>
               <div className="flex gap-2">
-                {backgrounds.slice(3).map((bg, i) => (
+                {backgrounds.slice(2).map((bg, i) => (
                   <button
                     key={i}
                     type="button"
@@ -160,9 +168,9 @@ export default function Navbar() {
               <button
                 type="submit"
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded mt-4 disabled:opacity-60 w-full"
-                disabled={!title}
+                disabled={!title || loading}
               >
-                Create
+                {loading ? "Creating..." : "Create"}
               </button>
             </form>
             <button className="mt-4 w-full bg-[#2c2f33] text-white py-2 rounded hover:bg-[#39424e]">
