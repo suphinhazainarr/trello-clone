@@ -18,3 +18,4 @@ const BoardSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
   archived: { type: Boolean, default: false }
 });
+module.exports = mongoose.model('Board', BoardSchema);
