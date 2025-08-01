@@ -30,17 +30,16 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Get all boards for user
-// Get all boards for user
 router.get('/', auth, async (req, res) => {
   try {
-    // Find boards where the user's ID is in the 'user' field of the members array
     const boards = await Board.find({
-      'members.user': req.user.id  // <-- CORRECTED QUERY
+      'members.user': req.user.id
     }).sort({ createdAt: -1 });
-
+    
     res.json(boards);
   } catch (err) {
-    console.error("Error fetching boards:", err); // Add console.error for better debugging
+    // THIS IS THE MOST IMPORTANT PART FOR DEBUGGING
+    console.error("!!! ERROR FETCHING BOARDS:", err); 
     res.status(500).json({ message: 'Server error' });
   }
 });
