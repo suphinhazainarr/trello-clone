@@ -38,3 +38,9 @@ export const fetchBoards = async () => {
   const res = await axios.get(`${API_URL}/boards`, getAuthHeader());
   return res.data;
 };
+
+// Get a single board by its ID
+export const getBoardById = async (boardId) => {
+  const res = await axios.get(`${API_URL}/boards/${boardId}`, getAuthHeader());
+  return res.data;
+};
