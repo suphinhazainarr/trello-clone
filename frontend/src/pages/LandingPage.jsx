@@ -1,3 +1,6 @@
+import React from "react";
+import { Link } from "react-router-dom"; // <-- 1. Import Link
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#f4f5f7] flex flex-col font-sans">
@@ -13,8 +16,9 @@ export default function LandingPage() {
           <a href="#" className="text-[#253858] font-medium">Plans</a>
           <a href="#" className="text-[#253858] font-medium">Pricing</a>
           <a href="#" className="text-[#253858] font-medium">Resources</a>
-          <a href="#" className="text-[#253858] font-medium">Log in</a>
-          <a href="#" className="bg-blue-600 text-white px-4 py-2 rounded font-semibold hover:bg-blue-700 transition">Get Trello for free</a>
+          {/* 2. Change <a> to <Link> */}
+          <Link to="/login" className="text-[#253858] font-medium">Log in</Link>
+          <Link to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded font-semibold hover:bg-blue-700 transition">Get Trello for free</Link>
         </nav>
       </header>
 
@@ -33,12 +37,13 @@ export default function LandingPage() {
               placeholder="Email"
               className="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <button
-              type="button"
-              className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700 transition"
+            {/* 3. Change <button> to <Link> and style it like a button */}
+            <Link
+              to="/signup"
+              className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700 transition flex items-center"
             >
               Sign up – it’s free!
-            </button>
+            </Link>
           </form>
           <p className="text-xs text-[#42526e] mt-2">
             By entering my email, I acknowledge the <a href="#" className="underline">Atlassian Privacy Policy</a>
