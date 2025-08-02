@@ -44,6 +44,26 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// Get a single board by ID
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const board = await Board.findOne({
+      _id: req.params.id,
+      'members.user': req.user.id // Ensure user is a member
+    });
 
+    if (!board) {
+      return res.status(404).json({ message: 'Board not found or you do not have access' });
+    }
+    
+    // You might want to populate lists and cards here as well
+    // .populate({ path: 'lists', populate: { path: 'cards' } })
+    
+    res.json(board);
+  } catch (err) {
+    console.error("Error fetching board by ID:", err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 module.exports = router;
