@@ -10,3 +10,17 @@
   background: #22272b;
   border-radius: 4px;
 }
+.gutter {
+  background-color: #374151; /* gray-700 */
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxl79uz5T4GIV1GKS2G1Eke4IQBNjwCIeSgV2wAAAABJRU5ErkJggg==');
+  cursor: col-resize;
+}
+
+.gutter:hover {
+  background-color: #4b5563; /* gray-600 */
+}
