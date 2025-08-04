@@ -19,23 +19,15 @@ export default function BoardForm() {
   // This function is called every time the user drags a gutter
   const handleDrag = (sizes) => {
     if (!containerRef.current) return;
-
-    // Get the total width of the container
     const containerWidth = containerRef.current.clientWidth;
-    
-    // Calculate the minimum size as a percentage of the container width
-    const minSizePercent = (MIN_PANEL_WIDTH_PX / containerWidth) * 100;
-
-    // Create a map of currently visible panels to check against their new sizes
+    // If a panel is dragged to 0 (fully collapsed), hide it
     const visiblePanelSetters = [];
     if (showInbox) visiblePanelSetters.push(setShowInbox);
     if (showPlanner) visiblePanelSetters.push(setShowPlanner);
     if (showBoard) visiblePanelSetters.push(setShowBoard);
-
-    // Check if any panel has been resized to be smaller than the minimum
     sizes.forEach((size, index) => {
-      if (size < minSizePercent) {
-        // If it is, call its setter to hide it
+      // If the panel is fully collapsed (0%), hide it
+      if (size === 0) {
         visiblePanelSetters[index](false);
       }
     });
@@ -66,11 +58,12 @@ export default function BoardForm() {
 
     return (
       <Split
-        className="flex flex-1"
+        className="split flex flex-1"
         sizes={getInitialSizes()}
-        minSize={MIN_PANEL_WIDTH_PX} // This still prevents dragging smaller than the min
+        minSize={0} // Allow panels to be dragged to 0 for snap-to-hide
+        snapOffset={30} // Snap to hide when within 30px of the edge
         gutterSize={10}
-        onDrag={handleDrag} // <-- This is the key change!
+        onDrag={handleDrag}
         direction="horizontal"
         cursor="col-resize"
       >
