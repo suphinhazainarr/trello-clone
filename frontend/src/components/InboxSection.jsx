@@ -3,7 +3,7 @@ import { Mail, Users, Slack, Smartphone, Lock } from "lucide-react";
 
 export default function InboxSection() {
   return (
-<aside className="bg-gradient-to-b from-[#1b2a47] to-[#22335a] text-white rounded-2xl shadow-lg p-6 flex flex-col gap-6 w-full md:w-72 md:min-w-[260px] h-full">      <div>
+<aside className="bg-gradient-to-b from-[#1b2a47] to-[#22335a] text-white rounded-2xl shadow-lg p-6 flex flex-col gap-6 w-full h-full">      <div>
         <h2 className="font-bold text-xl mb-4">Inbox</h2>
         <button className="w-full bg-[#22335a] hover:bg-[#2c3e66] text-left px-4 py-2 rounded-lg mb-6 transition">
           Add a card

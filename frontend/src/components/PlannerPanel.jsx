@@ -1,7 +1,7 @@
 // components/PlannerPanel.jsx
 export default function PlannerPanel() {
   return (
- <section className="bg-[#0d1117] rounded-2xl shadow-lg p-6 w-full md:w-[400px] md:min-w-[320px] md:max-w-[480px] flex flex-col gap-4">      <h2 className="text-2xl font-bold text-white mb-1">Planner</h2>
+ <section className="bg-[#0d1117] rounded-2xl shadow-lg p-6 w-full flex flex-col gap-4">      <h2 className="text-2xl font-bold text-white mb-1">Planner</h2>
       <p className="text-sm text-gray-300 mb-1">
         Drag, drop, get it done. Schedule your to-dos on your calendar and make time for what truly matters.
       </p>
