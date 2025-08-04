@@ -1,16 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react"; // <-- Import useRef
 import Split from "react-split";
 import InboxSection from "../components/InboxSection";
 import PlannerPanel from "../components/PlannerPanel";
 import BoardWorkspace from "../components/BoardWorkspace";
 import BottomDock from "../components/BottomDock";
-import { useResponsiveLayout } from "../hooks/useResponsiveLayout"; // Import the custom hook
+import { useResponsiveLayout } from "../hooks/useResponsiveLayout";
+
+// Define a minimum width in pixels for each panel.
+const MIN_PANEL_WIDTH_PX = 250;
 
 export default function BoardForm() {
   const [showInbox, setShowInbox] = useState(true);
   const [showPlanner, setShowPlanner] = useState(true);
   const [showBoard, setShowBoard] = useState(true);
-  const layout = useResponsiveLayout(); // Returns 'mobile' or 'desktop'
+  const layout = useResponsiveLayout();
+  const containerRef = useRef(null); // Ref to get the container's width
+
+  // This function is called every time the user drags a gutter
+  const handleDrag = (sizes) => {
+    if (!containerRef.current) return;
+
+    // Get the total width of the container
+    const containerWidth = containerRef.current.clientWidth;
+    
+    // Calculate the minimum size as a percentage of the container width
+    const minSizePercent = (MIN_PANEL_WIDTH_PX / containerWidth) * 100;
+
+    // Create a map of currently visible panels to check against their new sizes
+    const visiblePanelSetters = [];
+    if (showInbox) visiblePanelSetters.push(setShowInbox);
+    if (showPlanner) visiblePanelSetters.push(setShowPlanner);
+    if (showBoard) visiblePanelSetters.push(setShowBoard);
+
+    // Check if any panel has been resized to be smaller than the minimum
+    sizes.forEach((size, index) => {
+      if (size < minSizePercent) {
+        // If it is, call its setter to hide it
+        visiblePanelSetters[index](false);
+      }
+    });
+  };
 
   // --- RENDER LOGIC FOR DESKTOP (Resizable Panels) ---
   const renderDesktopLayout = () => {
@@ -39,9 +68,9 @@ export default function BoardForm() {
       <Split
         className="flex flex-1"
         sizes={getInitialSizes()}
-        minSize={250}
+        minSize={MIN_PANEL_WIDTH_PX} // This still prevents dragging smaller than the min
         gutterSize={10}
-        snapOffset={30}
+        onDrag={handleDrag} // <-- This is the key change!
         direction="horizontal"
         cursor="col-resize"
       >
@@ -56,6 +85,7 @@ export default function BoardForm() {
 
   // --- RENDER LOGIC FOR MOBILE (Stacked Panels) ---
   const renderMobileLayout = () => {
+    // This logic remains the same
     return (
       <div className="flex-1 flex flex-col gap-4 overflow-y-auto">
         {showInbox && <InboxSection />}
@@ -72,8 +102,8 @@ export default function BoardForm() {
 
   return (
     <div className="min-h-screen bg-[#181c20] flex flex-col font-sans relative overflow-hidden">
-      <div className="flex flex-1 p-4 md:p-6 pb-20 overflow-hidden">
-        {/* Conditionally render the correct layout based on screen size */}
+      {/* Attach the ref to this container */}
+      <div ref={containerRef} className="flex flex-1 p-4 md:p-6 pb-20 overflow-hidden">
         {layout === 'desktop' ? renderDesktopLayout() : renderMobileLayout()}
       </div>
 
