@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
     const list = await List.findById(listId);
     if (!list) return res.status(404).json({ message: 'List not found' });
     const board = await Board.findById(list.boardId);
-    if (!board.members.includes(req.user.id)) return res.status(403).json({ message: 'Not a board member' });
+    if (!board.members.some(m => m.user.toString() === req.user.id)) return res.status(403).json({ message: 'Not a board member' });
     const card = new Card({ listId, title, description, assignedTo, labels, dueDate, position });
     await card.save();
     list.cards.push(card._id);
