@@ -11,7 +11,7 @@ router.post('/', auth, async (req, res) => {
     if (!boardId || !title) return res.status(400).json({ message: 'boardId and title are required' });
     const board = await Board.findById(boardId);
     if (!board) return res.status(404).json({ message: 'Board not found' });
-    if (!board.members.includes(req.user.id)) return res.status(403).json({ message: 'Not a board member' });
+    if (!board.members.some(m => m.user.toString() === req.user.id)) return res.status(403).json({ message: 'Not a board member' });
     const list = new List({ boardId, title, position });
     await list.save();
     board.lists.push(list._id);
