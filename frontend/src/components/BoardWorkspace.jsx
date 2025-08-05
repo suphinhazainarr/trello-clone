@@ -92,7 +92,40 @@ export default function BoardWorkspace() {
   };
 
   if (loading) {
-    return <div className="flex-1 p-8 text-white text-center">Loading board...</div>;
+    // Skeletons for lists and cards
+    return (
+      <section className="flex-1 flex flex-col h-full rounded-2xl shadow-lg overflow-hidden relative">
+        <div className="flex-1 bg-cover bg-center relative p-8">
+          <div className="flex gap-6 overflow-x-auto pb-4 h-full">
+            {[1, 2, 3].map((n) => (
+              <div
+                key={n}
+                className="bg-[#181c20] rounded-xl p-3 w-72 min-w-[18rem] shadow-lg flex flex-col h-fit animate-pulse"
+              >
+                <div className="h-6 bg-gray-700 rounded mb-4 w-2/3"></div>
+                <div className="flex flex-col gap-2 mb-2">
+                  {[1, 2].map((m) => (
+                    <div
+                      key={m}
+                      className="bg-gray-800 rounded p-3 h-6 w-full"
+                    ></div>
+                  ))}
+                </div>
+                <div className="mt-auto">
+                  <div className="h-10 bg-gray-700 rounded w-full mb-2"></div>
+                  <div className="h-8 bg-gray-800 rounded w-full"></div>
+                </div>
+              </div>
+            ))}
+            {/* Add another list skeleton */}
+            <div className="bg-white/20 rounded-xl p-4 w-72 min-w-[18rem] flex flex-col justify-center items-center shadow-lg h-fit animate-pulse">
+              <div className="h-6 bg-gray-700 rounded w-2/3 mb-4"></div>
+              <div className="h-10 bg-gray-800 rounded w-full"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   if (error) {
