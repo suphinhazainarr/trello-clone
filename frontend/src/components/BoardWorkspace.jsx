@@ -174,7 +174,7 @@ export default function BoardWorkspace() {
               type="text"
               placeholder="Enter list title..."
               value={newListTitle}
-              onChange={(e) => setNewListTitle(e.targe.value)}
+              onChange={(e) => setNewListTitle(e.target.value)}
               className="px-3 py-2 rounded border-none w-full mb-2 bg-[#22272b] text-white placeholder-gray-400"
             />
             <button
