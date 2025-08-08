@@ -10,4 +10,7 @@ const CardSchema = new mongoose.Schema({
   position: { type: Number, default: 0 }
 });
 
+// Optimize queries and reordering by list and position
+CardSchema.index({ listId: 1, position: 1 });
+
 module.exports = mongoose.model('Card', CardSchema);

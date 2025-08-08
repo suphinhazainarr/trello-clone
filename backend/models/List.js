@@ -7,4 +7,7 @@ const ListSchema = new mongoose.Schema({
   cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Card' }]
 });
 
+// Optimize queries and reordering by board and position
+ListSchema.index({ boardId: 1, position: 1 });
+
 module.exports = mongoose.model('List', ListSchema);
