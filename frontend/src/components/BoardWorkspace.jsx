@@ -13,6 +13,7 @@ import {
   Share2,
   MoreHorizontal,
 } from "lucide-react";
+import { useNotification } from "./NotificationContext";
 
 export default function BoardWorkspace() {
   const { boardId } = useParams(); // Get boardId from the URL, e.g., /board/12345
@@ -21,6 +22,8 @@ export default function BoardWorkspace() {
   const [cards, setCards] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const notify = useNotification();
 
   // State for creating new lists and cards
   const [newListTitle, setNewListTitle] = useState("");
@@ -38,7 +41,7 @@ export default function BoardWorkspace() {
           // If not, you'll need separate API calls to fetch lists and then cards.
           const boardData = await getBoardById(boardId);
           setBoard(boardData);
-          
+
           // Assuming the backend populates lists with their cards
           const listsData = boardData.lists || [];
           setLists(listsData);
@@ -54,13 +57,14 @@ export default function BoardWorkspace() {
           console.error("Failed to fetch board data:", err);
           setError("Board not found or you don't have access.");
           setBoard(null);
+          notify("Failed to load board", "error");
         } finally {
           setLoading(false);
         }
       }
     };
     fetchBoardData();
-  }, [boardId]);
+  }, [boardId, notify]);
 
   // Handler to create a new list
   const handleCreateList = async () => {
@@ -69,8 +73,10 @@ export default function BoardWorkspace() {
       const newList = await createList(board._id, newListTitle, lists.length);
       setLists([...lists, newList]);
       setNewListTitle(""); // Reset input
+      notify("List created!", "success");
     } catch (err) {
       console.error("Failed to create list:", err);
+      notify("Failed to create list", "error");
     }
   };
 
@@ -86,8 +92,10 @@ export default function BoardWorkspace() {
       }));
       setNewCardTitle(""); // Reset input
       setSelectedListId(""); // Deactivate input
+      notify("Card created!", "success");
     } catch (err) {
       console.error("Failed to create card:", err);
+      notify("Failed to create card", "error");
     }
   };
 
