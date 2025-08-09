@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import './App.css';
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppLayout() {
   const location = useLocation();
@@ -17,12 +18,12 @@ function AppLayout() {
     <div className="flex flex-col h-screen">
       {!hideNavbar && <Navbar />}
       <Routes>
-        <Route path="/create-board" element={<BoardForm />} />
-        <Route path="/home/*" element={<HomePage />} />
+        <Route path="/create-board" element={<ProtectedRoute><BoardForm /></ProtectedRoute>} />
+        <Route path="/home/*" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<LandingPage />} />
-        <Route path="/board/:boardId" element={<BoardForm />} />
+        <Route path="/board/:boardId" element={<ProtectedRoute><BoardForm /></ProtectedRoute>} />
 
       </Routes>
     </div>
