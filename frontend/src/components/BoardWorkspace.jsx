@@ -45,6 +45,9 @@ export default function BoardWorkspace() {
   const [activeCard, setActiveCard] = useState(null);
   const [cardForm, setCardForm] = useState({ title: "", description: "", labels: "", dueDate: "" });
 
+  // Determine whether the board background is a URL or a color string
+  const bgIsUrl = typeof board?.background === 'string' && /^https?:/i.test(board.background);
+
   // Fetch all board data when the component loads or the boardId changes
   useEffect(() => {
     const fetchBoardData = async () => {
@@ -311,7 +314,11 @@ export default function BoardWorkspace() {
       {/* Board Background and Content */}
       <div
         className="flex-1 bg-cover bg-center relative p-8"
-        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(${board.background})` }}
+        style={
+          bgIsUrl
+            ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(${board.background})` }
+            : { backgroundColor: board?.background || '#0079bf' }
+        }
       >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="board-droppable" direction="horizontal" type="LIST">

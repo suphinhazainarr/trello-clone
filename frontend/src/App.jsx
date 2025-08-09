@@ -6,7 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
-import './app.css';
+import './App.css';
 
 function AppLayout() {
   const location = useLocation();
