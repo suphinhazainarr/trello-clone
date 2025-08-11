@@ -9,17 +9,19 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || !password)
+    const nameTrimmed = (name || '').trim();
+    const emailNorm = (email || '').trim().toLowerCase();
+    if (!nameTrimmed || !emailNorm || !password)
       return res.status(400).json({ message: 'All fields are required' });
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: emailNorm });
     if (existingUser)
       return res.status(400).json({ message: 'Email already in use' });
 
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const user = new User({ name, email, passwordHash });
+    const user = new User({ name: nameTrimmed, email: emailNorm, passwordHash });
     await user.save();
 
     // Create JWT
@@ -38,10 +40,11 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password)
+    const emailNorm = (email || '').trim().toLowerCase();
+    if (!emailNorm || !password)
       return res.status(400).json({ message: 'All fields are required' });
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: emailNorm });
     if (!user)
       return res.status(400).json({ message: 'Invalid credentials' });
 

@@ -38,8 +38,7 @@ router.get('/', auth, async (req, res) => {
     
     res.json(boards);
   } catch (err) {
-    // THIS IS THE MOST IMPORTANT PART FOR DEBUGGING
-    console.error("!!! ERROR FETCHING BOARDS:", err); 
+    console.error('Error fetching boards:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });

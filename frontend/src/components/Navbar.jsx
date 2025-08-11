@@ -19,6 +19,11 @@ export default function Navbar() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   const handleCreate = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
@@ -86,6 +91,7 @@ export default function Navbar() {
           <Volume2 className="w-5 h-5 text-white cursor-pointer" />
           <Bell className="w-5 h-5 text-white cursor-pointer" />
           <HelpCircle className="w-5 h-5 text-white cursor-pointer" />
+          <button onClick={logout} className="px-3 py-1 rounded bg-[#39424e] text-white text-sm">Logout</button>
           <div className="w-8 h-8 bg-cyan-600 rounded-full flex items-center justify-center text-white font-bold">
             S
           </div>

@@ -12,6 +12,7 @@ const HomePage = () => {
         <Sidebar />
           <div className="flex-1 overflow-auto w-full h-full">
       <Routes>
+        <Route index element={<Board />} />
         <Route path="board" element={<Board />} />
       </Routes>
     </div>
